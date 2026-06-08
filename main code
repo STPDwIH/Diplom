@@ -1,0 +1,372 @@
+"""
+Экспериментальная реализация калибровки акселерометра ADXL345.
+Архитектура MLP: 3 → 16 → 8 → 3 
+"""
+
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+import time
+import joblib
+
+# Фиксация random seed
+seed = 42
+np.random.seed(seed)
+torch.manual_seed(seed)
+
+# ============================================================
+# 1. Генератор данных с нелинейностью
+# ============================================================
+
+def generate_synthetic_data(num_samples=100000, fs=100.0, nonlinearity_strength=0.03, noise_density=100e-6):
+ """
+ Генерирует данные по модели y = T*(S*a + b) + nonlinearity(a) + n.
+ Параметры погрешностей фиксированы для всей выборки.
+ """
+ S_nom = 256.0 # LSB/g
+ 
+ # Фиксированные систематические погрешности
+ S_variation = 0.05
+ S_x = S_nom * (1.0 + np.random.uniform(-S_variation, S_variation))
+ S_y = S_nom * (1.0 + np.random.uniform(-S_variation, S_variation))
+ S_z = S_nom * (1.0 + np.random.uniform(-S_variation, S_variation))
+ S_matrix = np.diag([S_x, S_y, S_z])
+ 
+ bias_max_lsb = 25.6 # 100 мг * 256 / 1000
+ b = np.array([
+ np.random.uniform(-bias_max_lsb, bias_max_lsb),
+ np.random.uniform(-bias_max_lsb, bias_max_lsb),
+ np.random.uniform(-bias_max_lsb, bias_max_lsb)
+ ])
+ 
+ cross_axis_max = 0.05
+ T = np.eye(3)
+ for i in range(3):
+ for j in range(3):
+ if i != j:
+ T[i, j] = np.random.uniform(-cross_axis_max, cross_axis_max)
+ 
+ # Нелинейность (квадратичный член)
+ nonlinearity = np.random.uniform(-nonlinearity_strength, nonlinearity_strength, 3)
+ 
+ # Формирование эталонных ускорений
+ num_grid = 41
+ grid = np.linspace(-2, 2, num_grid)
+ grid_points = np.array(np.meshgrid(grid, grid, grid)).T.reshape(-1, 3)
+ num_grid_points = len(grid_points)
+
+ if num_samples <= num_grid_points:
+ a_ref = grid_points[:num_samples]
+ else:
+ num_random = num_samples - num_grid_points
+ random_points = np.random.uniform(-2, 2, (num_random, 3))
+ a_ref = np.vstack([grid_points, random_points])
+ 
+ # Применение систематических погрешностей
+ y_sys = np.zeros((num_samples, 3))
+ for i in range(num_samples):
+ scaled = S_matrix @ a_ref[i] + b
+ y_sys[i] = T @ scaled
+ # Нелинейная добавка
+ y_sys[i] += nonlinearity * (a_ref[i] ** 2) * S_nom * 0.02
+ 
+ # Шумы
+ #noise_density = 100e-6 # g/√Гц
+ sigma_white = noise_density * np.sqrt(fs)
+ white_noise_g = np.random.normal(0, sigma_white, (num_samples, 3))
+ 
+ delta_g = 4.0 / (2**10)
+ quant_noise_g = np.random.uniform(-delta_g/2, delta_g/2, (num_samples, 3))
+ 
+ y_raw = y_sys + white_noise_g * S_nom + quant_noise_g * S_nom
+ y_raw = np.round(y_raw).astype(int)
+ y_raw = np.clip(y_raw, -512, 511)
+ 
+ return y_raw, a_ref
+
+# ============================================================
+# 2. MLP 3→16→8→3 
+# ============================================================
+
+class CalibrationMLP(nn.Module):
+ def __init__(self):
+ super().__init__()
+ self.fc1 = nn.Linear(3, 16)
+ self.fc2 = nn.Linear(16, 8)
+ self.fc3 = nn.Linear(8, 3)
+ self.relu = nn.ReLU()
+ 
+ # Инициализация He
+ nn.init.kaiming_normal_(self.fc1.weight, mode='fan_in', nonlinearity='relu')
+ nn.init.kaiming_normal_(self.fc2.weight, mode='fan_in', nonlinearity='relu')
+ nn.init.xavier_normal_(self.fc3.weight)
+ 
+ def forward(self, x):
+ x = self.relu(self.fc1(x))
+ x = self.relu(self.fc2(x))
+ x = self.fc3(x)
+ return x
+
+# ============================================================
+# 3. Предобработка
+# ============================================================
+
+def preprocess_data(X, y, test_size=0.15, val_size=0.15, random_state=42):
+ X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+ relative_val = val_size / (1 - test_size)
+ X_train, X_val, y_train, y_val = train_test_split(X_temp, y_temp, test_size=relative_val, random_state=random_state)
+ 
+ scaler_X = MinMaxScaler(feature_range=(-1, 1))
+ X_train_norm = scaler_X.fit_transform(X_train)
+ X_val_norm = scaler_X.transform(X_val)
+ X_test_norm = scaler_X.transform(X_test)
+ 
+ scaler_y = MinMaxScaler(feature_range=(-1, 1))
+ y_train_norm = scaler_y.fit_transform(y_train)
+ y_val_norm = scaler_y.transform(y_val)
+ y_test_norm = scaler_y.transform(y_test)
+ 
+ return (X_train_norm, X_val_norm, X_test_norm,
+ y_train_norm, y_val_norm, y_test_norm,
+ scaler_X, scaler_y)
+
+# ============================================================
+# 4. Обучение с сохранением модели
+# ============================================================
+
+def train_model(model, train_loader, val_loader, num_epochs=300, patience=30,
+ lr=1e-3, weight_decay=1e-5, device='cpu'):
+ criterion = nn.MSELoss()
+ optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+ scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=10)
+ 
+ best_val_loss = float('inf')
+ epochs_no_improve = 0
+ train_losses = []
+ val_losses = []
+ 
+ for epoch in range(num_epochs):
+ model.train()
+ train_loss = 0.0
+ for batch_x, batch_y in train_loader:
+ batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+ optimizer.zero_grad()
+ pred = model(batch_x)
+ loss = criterion(pred, batch_y)
+ loss.backward()
+ optimizer.step()
+ train_loss += loss.item() * batch_x.size(0)
+ train_loss /= len(train_loader.dataset)
+ train_losses.append(train_loss)
+ 
+ model.eval()
+ val_loss = 0.0
+ with torch.no_grad():
+ for batch_x, batch_y in val_loader:
+ batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+ pred = model(batch_x)
+ loss = criterion(pred, batch_y)
+ val_loss += loss.item() * batch_x.size(0)
+ val_loss /= len(val_loader.dataset)
+ val_losses.append(val_loss)
+ 
+ scheduler.step(val_loss)
+ 
+ if val_loss < best_val_loss:
+ best_val_loss = val_loss
+ epochs_no_improve = 0
+ best_model_state = model.state_dict().copy()
+ 
+ # СОХРАНЕНИЕ МОДЕЛИ
+ torch.save(model.state_dict(), 'best_model.pth')
+ print(f"Model saved at epoch {epoch+1} with val_loss = {val_loss:.6f}")
+ else:
+ epochs_no_improve += 1
+ 
+ if epochs_no_improve >= patience:
+ print(f"Early stopping at epoch {epoch+1}")
+ break
+ 
+ model.load_state_dict(best_model_state)
+ return model, train_losses, val_losses
+
+# ============================================================
+# 5. Метрики
+# ============================================================
+
+def compute_metrics(y_true, y_pred):
+ rmse_vector = np.sqrt(np.mean((y_true - y_pred)**2))
+ mae_vector = np.mean(np.max(np.abs(y_true - y_pred), axis=1))
+ rmse_axis = np.sqrt(np.mean((y_true - y_pred)**2, axis=0))
+ mae_axis = np.mean(np.abs(y_true - y_pred), axis=0)
+ return rmse_vector, mae_vector, rmse_axis, mae_axis
+
+def relative_error(rmse_vector, full_scale=2.0):
+ return (rmse_vector / full_scale) * 100.0
+
+# ============================================================
+# 6. Основной эксперимент
+# ============================================================
+
+def main():
+ num_samples = 100000
+ fs = 100.0
+ batch_size = 64
+ num_epochs = 300
+ patience = 30
+ lr = 1e-3
+ weight_decay = 1e-5
+ device = 'cuda' if torch.cuda.is_available() else 'cpu'
+ print(f"Using device: {device}")
+ 
+ print("Generating synthetic data...")
+ X_raw, y_true = generate_synthetic_data(num_samples, fs)
+ print(f"Data shape: X {X_raw.shape}, y {y_true.shape}")
+ 
+ # Raw (без калибровки)
+ S_nom = 256.0
+ a_raw_est = X_raw / S_nom
+ rmse_raw, mae_raw, rmse_raw_axis, mae_raw_axis = compute_metrics(y_true, a_raw_est)
+ print("\n=== Raw (uncalibrated) Results ===")
+ print(f"RMSE (vector): {rmse_raw:.4f} g")
+ print(f"Relative error: {relative_error(rmse_raw):.2f}%")
+ 
+ # Предобработка
+ (X_train, X_val, X_test,
+ y_train_norm, y_val_norm, y_test_norm,
+ scaler_X, scaler_y) = preprocess_data(X_raw, y_true)
+ 
+ # СОХРАНЕНИЕ SCALER'ОВ
+ joblib.dump(scaler_X, 'scaler_X.pkl')
+ joblib.dump(scaler_y, 'scaler_y.pkl')
+ print("\nScalers saved to 'scaler_X.pkl' and 'scaler_y.pkl'")
+ 
+ y_test = scaler_y.inverse_transform(y_test_norm)
+ 
+ # DataLoader
+ train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32),
+ torch.tensor(y_train_norm, dtype=torch.float32))
+ val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32),
+ torch.tensor(y_val_norm, dtype=torch.float32))
+ test_dataset = TensorDataset(torch.tensor(X_test, dtype=torch.float32),
+ torch.tensor(y_test_norm, dtype=torch.float32))
+ train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+ val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+ test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+ 
+ # MLP
+ print("\nTraining MLP (3→16→8→3)...")
+ model = CalibrationMLP().to(device)
+ start_time = time.time()
+ model, train_losses, val_losses = train_model(model, train_loader, val_loader,
+ num_epochs, patience, lr,
+ weight_decay, device)
+ train_time = time.time() - start_time
+ print(f"Training time: {train_time:.2f} sec")
+ 
+ model.eval()
+ y_pred_norm = []
+ with torch.no_grad():
+ for batch_x, _ in test_loader:
+ batch_x = batch_x.to(device)
+ pred = model(batch_x).cpu().numpy()
+ y_pred_norm.append(pred)
+ y_pred_norm = np.vstack(y_pred_norm)
+ y_pred = scaler_y.inverse_transform(y_pred_norm)
+ 
+ rmse_mlp, mae_mlp, rmse_mlp_axis, mae_mlp_axis = compute_metrics(y_test, y_pred)
+ print("\n=== MLP Calibration Results ===")
+ print(f"RMSE (vector): {rmse_mlp:.4f} g")
+ print(f"Relative error: {relative_error(rmse_mlp):.2f}%")
+ print(f"RMSE per axis: X={rmse_mlp_axis[0]:.4f}, Y={rmse_mlp_axis[1]:.4f}, Z={rmse_mlp_axis[2]:.4f} g")
+ print(f"MAE per axis: X={mae_mlp_axis[0]:.4f}, Y={mae_mlp_axis[1]:.4f}, Z={mae_mlp_axis[2]:.4f} g")
+ print(f"MAE (vector): {mae_mlp:.4f} g")
+ 
+ # Least Squares
+ print("\nTraining classic Least Squares...")
+ lr_model = LinearRegression()
+ lr_model.fit(X_train, y_train_norm)
+ y_pred_ls_norm = lr_model.predict(X_test)
+ y_pred_ls = scaler_y.inverse_transform(y_pred_ls_norm)
+ rmse_ls, mae_ls, _, _ = compute_metrics(y_test, y_pred_ls)
+ print(f"Least Squares RMSE (vector): {rmse_ls:.4f} g")
+ print(f"Least Squares relative error: {relative_error(rmse_ls):.2f}%")
+ 
+ # Улучшения
+ impr_raw = (rmse_raw - rmse_mlp) / rmse_raw * 100
+ impr_ls = (rmse_ls - rmse_mlp) / rmse_ls * 100
+ print(f"\nImprovement over Raw: {impr_raw:.1f}%")
+ print(f"Improvement over Least Squares: {impr_ls:.1f}%")
+ 
+ # Время инференса
+ model_cpu = model.cpu()
+ model_cpu.eval()
+ single_input = torch.randn(1, 3)
+ for _ in range(100):
+ _ = model_cpu(single_input)
+ n_iter = 1000
+ start_inf = time.perf_counter()
+ for _ in range(n_iter):
+ _ = model_cpu(single_input)
+ inf_time = (time.perf_counter() - start_inf) / n_iter * 1e6
+ print(f"\nInference time per sample (CPU): {inf_time:.2f} µs")
+ 
+ # Графики
+ plt.figure(figsize=(12, 10))
+ 
+ plt.subplot(2, 2, 1)
+ plt.plot(train_losses, label='Train loss')
+ plt.plot(val_losses, label='Validation loss')
+ plt.xlabel('Epoch')
+ plt.ylabel('MSE')
+ plt.title('Learning curves (MLP 3→16→8→3)')
+ plt.legend()
+ plt.grid(True)
+ 
+ plt.subplot(2, 2, 2)
+ plt.scatter(y_test[:, 0], y_pred[:, 0], alpha=0.1, s=1)
+ plt.plot([-2, 2], [-2, 2], 'r--')
+ plt.xlabel('True acceleration (g)')
+ plt.ylabel('Predicted acceleration (g)')
+ plt.title('True vs Predicted (X-axis)')
+ plt.grid(True)
+ 
+ plt.subplot(2, 2, 3)
+ errors = y_test - y_pred
+ plt.hist(errors.flatten(), bins=50, alpha=0.7)
+ plt.xlabel('Error (g)')
+ plt.ylabel('Frequency')
+ plt.title('Distribution of calibration error')
+ plt.grid(True)
+ 
+ plt.subplot(2, 2, 4)
+ methods = ['Raw', 'MLP', 'LS']
+ rmse_vals = [rmse_raw, rmse_mlp, rmse_ls]
+ colors = ['gray', 'blue', 'orange']
+ plt.bar(methods, rmse_vals, color=colors)
+ plt.ylabel('RMSE (g)')
+ plt.title('Comparison of calibration methods')
+ plt.grid(True, axis='y')
+ 
+ plt.tight_layout()
+ plt.savefig('calibration_results.png', dpi=150)
+ plt.show()
+ 
+ # Сохранение результатов
+ results_df = pd.DataFrame({
+ 'True_X': y_test[:, 0], 'True_Y': y_test[:, 1], 'True_Z': y_test[:, 2],
+ 'Pred_MLP_X': y_pred[:, 0], 'Pred_MLP_Y': y_pred[:, 1], 'Pred_MLP_Z': y_pred[:, 2],
+ 'Pred_LS_X': y_pred_ls[:, 0], 'Pred_LS_Y': y_pred_ls[:, 1], 'Pred_LS_Z': y_pred_ls[:, 2]
+ })
+ results_df.to_csv('calibration_results.csv', index=False)
+ print("\nResults saved to 'calibration_results.csv'")
+
+if __name__ == "__main__":
+ main()
