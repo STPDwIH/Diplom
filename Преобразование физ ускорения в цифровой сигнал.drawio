@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="6Y55rrFk5LQHbMfxQ3Yq">
+    <mxGraphModel dx="1378" dy="765" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-13" edge="1" parent="1" source="0xFbT2Hz_nBvdeW22qqj-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=default;labelBackgroundColor=none;" target="0xFbT2Hz_nBvdeW22qqj-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;" value="&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 16px;&quot;&gt;Емкостное детектирование&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;(ΔC = f(a))&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="165" x="140" y="261" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-14" edge="1" parent="1" source="0xFbT2Hz_nBvdeW22qqj-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=default;labelBackgroundColor=none;" target="0xFbT2Hz_nBvdeW22qqj-11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;" value="&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 16px;&quot;&gt;Аналоговая обработка (усиление, фильтрация)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="75" width="165" x="140" y="384" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-12" edge="1" parent="1" source="0xFbT2Hz_nBvdeW22qqj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=default;labelBackgroundColor=none;" target="0xFbT2Hz_nBvdeW22qqj-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBackgroundColor=none;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;Физическое ускорение (а)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="218" x="113.5" y="169" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontFamily=Times New Roman;labelBackgroundColor=none;" value="(Изменение емкости)" vertex="1">
+          <mxGeometry height="36" width="164" x="302.5" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontFamily=Times New Roman;labelBackgroundColor=none;" value="(Аналоговый сигнал)" vertex="1">
+          <mxGeometry height="36" width="175" x="297" y="464" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontFamily=Times New Roman;fontSize=16;labelBackgroundColor=none;" value="(Цифровой код)" vertex="1">
+          <mxGeometry height="36" width="123" x="305" y="589" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-16" edge="1" parent="1" source="0xFbT2Hz_nBvdeW22qqj-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="0xFbT2Hz_nBvdeW22qqj-15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;" value="&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 16px;&quot;&gt;Аналогово-цифровое преобразование (АЦП)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="75" width="165" x="140" y="504" as="geometry" />
+        </mxCell>
+        <mxCell id="0xFbT2Hz_nBvdeW22qqj-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBackgroundColor=none;" value="&lt;font face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Выходной сигнал (у)&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="218" x="113.5" y="625" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
