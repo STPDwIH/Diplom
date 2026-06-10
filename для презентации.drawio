@@ -1,0 +1,89 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="ihkemBSg0wQ0qtyF2VFH">
+    <mxGraphModel dx="1998" dy="1109" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-18" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;shadow=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Начало&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="391" y="358.5" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-20" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Задание параметров датчика (S,b,T, Уровни шумов)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="546" y="317" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Конец&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="391" y="584.5" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-21" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Генерация синтетических данных (100000 пар)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="860" y="317" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-22" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Нормализация данных (Min-Max [-1,1])&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="1191" y="317" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-23" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1873" y="389" />
+              <mxPoint x="1873" y="615" />
+              <mxPoint x="1795" y="615" />
+            </Array>
+            <mxPoint x="1795.0038095238097" y="388.48" as="sourcePoint" />
+            <mxPoint x="1931" y="625" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);strokeColor=light-dark(#36393D,#080808);" value="&lt;font style=&quot;font-size: 18px; color: light-dark(rgb(0, 0, 0), rgb(8, 8, 8));&quot; face=&quot;Times New Roman&quot;&gt;Разбиение выборки (70%/15%/15%)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="1522" y="317" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-24" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Создание MLP (3 - 16 - 8 - 3)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="1522" y="543" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-25" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Обучение (Adam, L2-регуляризация&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="1191" y="543" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-26" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-29" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1005" y="742" />
+              <mxPoint x="1328" y="742" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-16" parent="1" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Улучшение валидационной ошибки?&lt;/font&gt;" vertex="1">
+          <mxGeometry height="225" width="346.5" x="832" y="502" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-27" edge="1" parent="1" source="RG8kF_Dqp5R5DsbZ_pb3-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;labelBackgroundColor=none;fontColor=default;fillColor=#647687;strokeColor=light-dark(#314354,#000000);" target="RG8kF_Dqp5R5DsbZ_pb3-10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Times New Roman&quot;&gt;Оценка качества (RMSE, MAE,&amp;nbsp;δ)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="143" width="273" x="546" y="543" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-28" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;rounded=0;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Да&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="822" y="543" as="geometry" />
+        </mxCell>
+        <mxCell id="RG8kF_Dqp5R5DsbZ_pb3-31" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;rounded=0;strokeWidth=2;labelBackgroundColor=none;fillColor=light-dark(#647687,#CBE3FF);fontColor=#ffffff;strokeColor=light-dark(#314354,#000000);" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Нет&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1131" y="750" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
