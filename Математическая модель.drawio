@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="6Y55rrFk5LQHbMfxQ3Yq">
+    <mxGraphModel dx="1378" dy="765" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-8" edge="1" parent="1" source="nrHS9xwmRiphX3f-J7lT-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 16px;&quot;&gt;а&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="19" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-9" edge="1" parent="1" source="nrHS9xwmRiphX3f-J7lT-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;Sa+b&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="186" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-10" edge="1" parent="1" source="nrHS9xwmRiphX3f-J7lT-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="T" vertex="1">
+          <mxGeometry height="60" width="120" x="353" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-13" edge="1" parent="1" source="nrHS9xwmRiphX3f-J7lT-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;+&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="520" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-11" edge="1" parent="1" source="nrHS9xwmRiphX3f-J7lT-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;n&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="520" y="191" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-12" edge="1" parent="1" source="nrHS9xwmRiphX3f-J7lT-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;ξ&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="520" y="419" as="geometry" />
+        </mxCell>
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;y_реал&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="687" y="305" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
