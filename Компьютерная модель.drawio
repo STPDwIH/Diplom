@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="6Y55rrFk5LQHbMfxQ3Yq">
+    <mxGraphModel dx="1378" dy="765" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nrHS9xwmRiphX3f-J7lT-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;Выходной слой&lt;br&gt;3 нейрона&lt;br&gt;Linear&lt;/font&gt;" vertex="1">
+          <mxGeometry height="75" width="135" x="642" y="287" as="geometry" />
+        </mxCell>
+        <mxCell id="njLkfkmAza-cz-Njyj8I-4" edge="1" parent="1" source="njLkfkmAza-cz-Njyj8I-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="njLkfkmAza-cz-Njyj8I-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="njLkfkmAza-cz-Njyj8I-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Входной слой&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;3 нейрона&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="135" x="108" y="287" as="geometry" />
+        </mxCell>
+        <mxCell id="njLkfkmAza-cz-Njyj8I-5" edge="1" parent="1" source="njLkfkmAza-cz-Njyj8I-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="njLkfkmAza-cz-Njyj8I-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="njLkfkmAza-cz-Njyj8I-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;Скрытый слой 1&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;16 нейронов&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;ReLU&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="135" x="286" y="287" as="geometry" />
+        </mxCell>
+        <mxCell id="njLkfkmAza-cz-Njyj8I-6" edge="1" parent="1" source="njLkfkmAza-cz-Njyj8I-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="nrHS9xwmRiphX3f-J7lT-7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="njLkfkmAza-cz-Njyj8I-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;Times New Roman&quot;&gt;Скрытый слой 2&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;8 нейронов&lt;br&gt;ReLU&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="135" x="464" y="287" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
